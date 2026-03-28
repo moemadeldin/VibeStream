@@ -11,6 +11,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\SavePostController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\StoryViewerController;
 use App\Http\Controllers\UserProfileController;
@@ -47,6 +48,11 @@ Route::middleware('auth:api')->group(function (): void {
         Route::post('/posts', 'store');
         Route::put('/posts/{user:username}/{post}', 'update');
         Route::delete('/posts/{user:username}/{post}', 'destroy');
+    });
+    Route::controller(SavePostController::class)->group(function (): void {
+        Route::get('/saved-posts', 'index');
+        Route::post('/saved-posts/{post}', 'store');
+        Route::delete('/saved-posts/{post}', 'destroy');
     });
     Route::controller(MediaController::class)->group(function (): void {
         Route::post('/{user:username}/posts/{post}/media', 'store');
