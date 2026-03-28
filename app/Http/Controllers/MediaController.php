@@ -4,51 +4,41 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteMediaRequest;
 use App\Http\Requests\MediaRequest;
 use App\Models\Media;
+use App\Models\Post;
 use App\Models\User;
 use App\Util\APIResponder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 final class MediaController extends Controller
 {
     use APIResponder;
 
-    public function store(MediaRequest $request, Media $media): JsonResponse
+    public function store(MediaRequest $request, User $user, Post $post): JsonResponse
     {
-        $user = auth()->user();
+        $path = $request->file('media')->store('media/posts', 'public');
 
-        $postMedia = Media::create(array_merge($request->validated(), ['post_id' => $media->id]));
+        $media = $post->media()->create([
+            'path' => $path,
+            'type' => $request->validated()['media_type'],
+            'order' => 1,
+        ]);
 
-        if ($postMedia->post->id !== $user->id) {
-            return $this->failedResponse('you cannot upload media to this post');
-        }
-
-        return $this->successResponse('', 'media uploaded successfully!');
-
+        return $this->successResponse($media, 'Media uploaded successfully!');
     }
 
-    public function update(MediaRequest $request, $username, Media $postMedia): JsonResponse
+    public function destroy(DeleteMediaRequest $request, User $user, Post $post, Media $media): JsonResponse
     {
-        $user = User::where('username', $username)->firstOrFail();
-
-        if ($postMedia->post->id !== $user->id) {
-            return $this->failedResponse('you cannot update media to this post');
-        }
-        $postMedia->update($request->validated());
-
-        return $this->successResponse('', 'media updated successfully!');
-
-    }
-
-    public function destroy($username, Media $media): JsonResponse
-    {
-        $user = User::where('username', $username)->firstOrFail();
-
-        if ($media->post->id !== $user->id) {
-            return $this->failedResponse('you cannot delete media to this post');
+        if ($media->path) {
+            Storage::disk('public')->delete($media->path);
         }
 
-        return $this->successResponse('', 'media deleted successfully!');
+        $media->delete();
+
+        return $this->successResponse(null, 'Media deleted successfully!');
+
     }
 }

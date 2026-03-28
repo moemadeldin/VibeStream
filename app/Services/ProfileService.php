@@ -19,7 +19,10 @@ final class ProfileService
         if (isset($data['profile_picture'])) {
             $this->handleProfilePictureUpdate($user, $data['profile_picture']);
         }
-        $user->profile()->update(Arr::except($data, ['current_password', 'password', 'password_confirmation', 'profile_picture']));
+        if (isset($data['mobile'])) {
+            $user->update(['mobile' => $data['mobile']]);
+        }
+        $user->profile()->update(Arr::except($data, ['current_password', 'password', 'password_confirmation', 'profile_picture', 'mobile']));
 
         if (isset($data['current_password']) && isset($data['password'])) {
             $this->changePassword($user, $data);
@@ -46,15 +49,15 @@ final class ProfileService
     /**
      * Create a new class instance.
      */
-    private function handleProfilePictureUpdate($user, $profilePicture) // not working
+    private function handleProfilePictureUpdate($user, $profilePicture)
     {
         $profilePicturePath = $profilePicture->store('profile/pictures', 'public');
 
-        if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
+        if ($user->profile->profile_picture) {
+            Storage::disk('public')->delete($user->profile->profile_picture);
         }
 
-        $user->update(['profile_picture' => $profilePicturePath]);
+        $user->profile()->update(['profile_picture' => $profilePicturePath]);
     }
 
     private function changePassword($user, $data)

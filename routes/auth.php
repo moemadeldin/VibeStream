@@ -48,9 +48,8 @@ Route::middleware('auth:api')->group(function (): void {
         Route::delete('/posts/{user:username}/{post}', 'destroy');
     });
     Route::controller(MediaController::class)->group(function (): void {
-        Route::post('/{username}/posts/{post}/media', 'store');
-        Route::post('/{username}/posts/{post}/media', 'update');
-        Route::delete('/{username}/posts/{post}/media', 'destroy');
+        Route::post('/{user:username}/posts/{post}/media', 'store');
+        Route::delete('/{user:username}/posts/{post}/media/{media}', 'destroy');
     });
     Route::controller(CommentController::class)->group(function (): void {
         Route::post('/posts/{user:username}/{post}/comment', 'store');

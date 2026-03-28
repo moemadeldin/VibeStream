@@ -7,7 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['throttle:60,1'])
+Route::middleware(['throttle:4,1'])
     ->controller(AuthController::class)
     ->group(function (): void {
 

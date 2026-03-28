@@ -15,7 +15,9 @@ final class MediaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $post = $this->route('post');
+
+        return $post && $this->user()->id === $post->user_id;
     }
 
     /**
