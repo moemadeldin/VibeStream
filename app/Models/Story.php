@@ -40,6 +40,6 @@ final class Story extends Model
 
     public function viewers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'story_viewers', 'story_id', 'user_id');
+        return $this->belongsToMany(User::class, 'story_viewers', 'story_id', 'user_id')->withTimestamps();
     }
 }

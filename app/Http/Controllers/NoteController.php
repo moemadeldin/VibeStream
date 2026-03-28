@@ -53,7 +53,7 @@ final class NoteController extends Controller
      */
     public function destroy(User $user, Note $note): JsonResponse
     {
-        $user->note()->delete();
+        $note->delete();
 
         return $this->successResponse($note, 'Note has been deleted');
     }

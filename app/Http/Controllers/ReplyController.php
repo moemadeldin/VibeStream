@@ -17,14 +17,6 @@ final class ReplyController extends Controller
     use APIResponder;
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(ReplyRequest $request, User $user, Post $post, Comment $comment): JsonResponse

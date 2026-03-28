@@ -12,6 +12,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\StoryController;
+use App\Http\Controllers\StoryViewerController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,10 @@ Route::middleware('auth:api')->group(function (): void {
         Route::post('/stories/{user:username}', 'store');
         Route::put('/stories/{user:username}/{story}', 'update');
         Route::delete('/stories/{user:username}/{story}', 'destroy');
+    });
+    Route::controller(StoryViewerController::class)->group(function (): void {
+        Route::get('/stories/{story}/viewers', 'index');
+        Route::post('/stories/{story}/view', 'store');
     });
     Route::controller(NoteController::class)->group(function (): void {
         Route::get('/notes/{user:username}', 'index');
