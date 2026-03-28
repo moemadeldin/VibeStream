@@ -37,13 +37,12 @@ final class StoryViewerController extends Controller
     {
         $user = auth()->user();
 
-
         DB::transaction(function () use ($story, $user): void {
 
             if ($story->user_id === $user->id || $story->viewers()->where('user_id', $user->id)->exists()) {
                 return;
             }
-            
+
             $story->viewers()->attach($user->id);
             $story->increment('viewers_count');
         });

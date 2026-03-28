@@ -54,7 +54,7 @@ final class PostController extends Controller
 
     public function destroy(DeletePostRequest $request, User $user, Post $post): JsonResponse
     {
-        return DB::transaction(function () use ($request, $user, $post): JsonResponse {
+        return DB::transaction(function () use ($user, $post): JsonResponse {
             $user = User::where('username', $user->username)->firstOrFail();
 
             $post->delete();
