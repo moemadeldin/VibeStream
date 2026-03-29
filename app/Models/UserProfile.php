@@ -8,6 +8,7 @@ use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 final class UserProfile extends Model
 {
@@ -32,4 +33,10 @@ final class UserProfile extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function getProfilePictureUrlAttribute(): string
+    {
+        return Storage::disk('public')->url($this->profile_picture);
+    }
+
 }

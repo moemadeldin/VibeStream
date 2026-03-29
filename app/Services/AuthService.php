@@ -29,7 +29,9 @@ final class AuthService
 
                 $user = $this->authRepository->create($data);
 
-                $user->profile()->create();
+                $user->profile()->create([
+                    'profile_picture' => 'profile/pictures/default.png',
+                ]);
                 $user->stats()->create();
 
                 event(new UserVerificationRequested($user));
