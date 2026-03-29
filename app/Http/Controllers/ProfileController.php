@@ -24,7 +24,7 @@ final class ProfileController extends Controller
 
     public function index(): JsonResponse
     {
-        return $this->successResponse(new ProfileResource(auth()->user()), 'Your Profile');
+        return $this->successResponse(new ProfileResource(auth()->user()->load('profile')), 'Your Profile');
     }
 
     public function update(ProfileRequest $request): JsonResponse

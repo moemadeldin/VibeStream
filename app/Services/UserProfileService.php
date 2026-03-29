@@ -142,7 +142,9 @@ final class UserProfileService
 
     private function getUserByUsername($username)
     {
-        return User::where('username', $username)->firstOrFail();
+        return User::with(['profile', 'stats', 'followers', 'following', 'posts'])
+            ->where('username', $username)
+            ->firstOrFail();
     }
 
     private function profileStatusChecker($user, $viewer)

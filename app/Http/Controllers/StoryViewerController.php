@@ -23,6 +23,7 @@ final class StoryViewerController extends Controller
         }
 
         $viewers = $story->viewers()
+            ->with('profile', 'profile')
             ->withPivot('created_at')
             ->orderByPivot('created_at', 'desc')
             ->get();

@@ -38,5 +38,4 @@ final class UserProfile extends Model
     {
         return Storage::disk('public')->url($this->profile_picture);
     }
-
 }
