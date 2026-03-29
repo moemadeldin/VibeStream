@@ -93,6 +93,16 @@ final class User extends Authenticatable
         return $this->belongsToMany(self::class, 'followers', 'follower_id', 'user_id');
     }
 
+    public function blocks(): HasMany
+    {
+        return $this->hasMany(Block::class);
+    }
+
+    public function blockedBy(): HasMany
+    {
+        return $this->hasMany(Block::class, 'blocked_user_id');
+    }
+
     public function stats(): HasOne
     {
         return $this->hasOne(UserStat::class);

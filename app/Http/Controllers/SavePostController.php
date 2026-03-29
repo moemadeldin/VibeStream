@@ -43,7 +43,7 @@ final class SavePostController extends Controller
             'post_id' => $post->id,
         ]);
 
-        return $this->successResponse(null, 'Post saved successfully');
+        return $this->successResponse($post, 'Post saved successfully');
     }
 
     public function destroy(Post $post): JsonResponse

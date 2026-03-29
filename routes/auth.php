@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\BlockController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FollowRequestController;
 use App\Http\Controllers\LikeController;
@@ -41,6 +42,11 @@ Route::middleware('auth:api')->group(function (): void {
         Route::get('/follow-requests', 'pendingFollowRequests');
         Route::post('/follow-requests/{username}/accept', 'store');
         Route::post('/follow-requests/{username}/decline', 'destroy');
+    });
+    Route::controller(BlockController::class)->group(function (): void {
+        Route::get('/blocked-users', 'index');
+        Route::post('/block/{user:username}', 'store');
+        Route::delete('/unblock/{user:username}', 'destroy');
     });
 
     Route::controller(PostController::class)->group(function (): void {

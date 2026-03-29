@@ -17,7 +17,8 @@ Route::middleware(['throttle:4,1'])
 
         Route::post('/forgot-password', 'forgetPassword');
     });
-Route::get('/{username}', [UserProfileController::class, 'index']);
-Route::get('/{username}/posts', [PostController::class, 'index']);
 
 require __DIR__.'/auth.php';
+
+Route::get('/{username}', [UserProfileController::class, 'index']);
+Route::get('/{username}/posts', [PostController::class, 'index']);
