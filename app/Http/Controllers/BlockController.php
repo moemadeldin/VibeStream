@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Resources\BlockResource;
-use App\Http\Resources\UserProfileResource;
 use App\Models\Block;
 use App\Models\User;
 use App\Util\APIResponder;
@@ -17,7 +16,7 @@ final class BlockController extends Controller
 
     public function index(int $limit = 10): JsonResponse
     {
-        
+
         $user = auth()->user();
 
         $blockedUsers = Block::where('user_id', $user->id)

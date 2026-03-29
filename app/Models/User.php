@@ -127,6 +127,13 @@ final class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function scopeSearch($query, string $term)
+    {
+        return $query->where(function ($q) use ($term): void {
+            $q->whereAny(['username', 'full_name'], 'LIKE', "%{$term}%");
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *

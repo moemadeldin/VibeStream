@@ -13,6 +13,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\SavePostController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StoryController;
 use App\Http\Controllers\StoryViewerController;
 use App\Http\Controllers\UserProfileController;
@@ -43,6 +44,7 @@ Route::middleware('auth:api')->group(function (): void {
         Route::post('/follow-requests/{username}/accept', 'store');
         Route::post('/follow-requests/{username}/decline', 'destroy');
     });
+    Route::get('/search', SearchController::class);
     Route::controller(BlockController::class)->group(function (): void {
         Route::get('/blocked-users', 'index');
         Route::post('/block/{user:username}', 'store');
